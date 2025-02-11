@@ -20,7 +20,7 @@ export const payback = ({wagmiConfig, callback} : paybackArgs) : ToolConfigPrope
                             description: `Amount provided by each participant as liquidity or contribution.`
                         },
                     },
-                    required: ['unitLiquidity']
+                    required: ['unitLiquidity']                                                
                 }
             }
         },
