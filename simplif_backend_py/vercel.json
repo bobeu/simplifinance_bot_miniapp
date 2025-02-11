@@ -1,0 +1,5 @@
+{
+    "version": 2,
+    "builds" : [{"src": "api/webhook.py", "use": "@vercel/pyhton"}],
+    "routes" : [{"src": "/(.*)", "dest": "api/webhook.py"}]
+}

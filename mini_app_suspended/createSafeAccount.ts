@@ -31,14 +31,3 @@
 //     threshold: 2
 //   }
 // })
-
-
-// Create a pool with quorum
-// Create a smart account with a signer threshold of quorum
-// Create agents for all { quorum }
-// One smart account is used instead of several banks. So no need to create a bank on the smart contract.
-    // This reduces deployment and interaction cost.
-// Each contributor sends their quota to a smart account.
-// On getting finance, each contributor sends a signing request to S-Alc. And on completion of the signatures, funds are transfered to the next person.
-    // Note: Factory SC will have a way to query the balances of S-Alc and keep proper record.
-// On payback, same process is applicable.
