@@ -1,44 +1,46 @@
 import getCurrentDebt  from "@/apis/read/getCurrentDebt";
 import { getClients } from "@/apis/viemClient";
 import { Address, ToolConfigProperties } from "@/interfaces";
+import { parseEther } from "viem";
 
 interface GetCurrentDebtArgs {
-    unit: bigint;
+    unitLiquidity: string;
 }
-
 
 export const getMyCurrentDebt = () : ToolConfigProperties<GetCurrentDebtArgs> => {
     const client = getClients().getPublicClient();
 
     return {
         definition: {
-            type: 'function',
+            "name": "getCurrentDebt",
+            "description": "Get the current debt of a contributor/borrower in a given pool",
+            "strict": true,
+            "parameters": {
+                "type": "object",
+                "required": [
+                    "unitLiquidity"
+                ],
+                "properties": {
+                    "unitLiquidity": {
+                    "type": "string",
+                    "description": "The contribution of the pool e.g 1 = $1, 5 = $5, e.t.c"
+                    }
+                },
+                "additionalProperties": false
+            },
+            type: "function",
             function: {
-                name: 'getCurrentDebt',
-                description: 'Get the current debt of a contributor/borrower in a given pool',
-                parameters: {
-                    type: 'object',
-                    properties: {
-                        unit: {
-                            type: 'bigint',
-                            description: 'The contribution of the pool e.g 1 = $1, 5 = $5, e.t.c'
-                        },
-                        
-                    },
-                    required: ['unit','target']
-                }
+                name: "getCurrentDebt",
+                description: "Get the current debt of a contributor/borrower in a given pool",
+                additionalProperties: false
             }
         },
-        handler: async({unit}) => {
+        handler: async({unitLiquidity}) => {
             return await getCurrentDebt({
                 account: String(client.account) as Address,
-                unit,
+                unit: parseEther(unitLiquidity),
                 client: client
             }); 
         }
     }
 }
-
-// export const tools: Record<string, ToolConfigProperties> = {
-    
-// }

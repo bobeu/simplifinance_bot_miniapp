@@ -1,5 +1,5 @@
 import { parseEther, zeroAddress } from 'viem';
-import { Analytics, FormattedData, LiquidityPool, Profile } from './interfaces';
+import { Analytics, FormattedData, } from './interfaces';
 import BigNumber from 'bignumber.js';
 import type { SafeVersion } from '@safe-global/types-kit';
 
@@ -11,6 +11,7 @@ export enum FuncTag {
   CANCELED,
   ENDED
 };
+export const THRESHOLD = 2;
 export const PROPOSED_TRANSACTION_COST_PER_TOOL = parseEther('0.1');
 export const SAFE_VERSION : SafeVersion = '1.4.1';
 export enum ROUTER { PERMISSIONLESS, PERMISSIONED }
@@ -32,46 +33,46 @@ export const ANALYTICS : Analytics = {
   totalPermissionless: 0n
 }
 
-export const PROFILE_MOCK : Profile = {
-  id: zeroAddress,
-  payDate: 0n,
-  colBals: 0n,
-  expInterest: 0n,
-  durOfChoice: 0n,
-  turnTime: 0n,
-  loan: 0n,
-  sentQuota: false
-};
+// export const PROFILE_MOCK : Profile = {
+//   id: zeroAddress,
+//   payDate: 0n,
+//   colBals: 0n,
+//   expInterest: 0n,
+//   durOfChoice: 0n,
+//   turnTime: 0n,
+//   loan: 0n,
+//   sentQuota: false
+// };
 
-export const POOL_MOCK : LiquidityPool = {
-  uint256s: {
-    unit: 0n,
-    currentPool: 0n,
-    fullInterest: 0n,
-    intPerSec: 0n,
-    unitId: 0n,
-    rId: 0n
-  },
-  stage: 0n,
-  uints: {
-    intRate: 0n,
-    quorum: 0n,
-    selector: 0n,
-    colCoverage: 0n,
-    duration: 0n,
-    cSlot: 0n,
-    allGh: 0n,
-    userCount: 0n
-  },
-  addrs: {
-    lastPaid: zeroAddress,
-    admin: zeroAddress,
-    asset: zeroAddress,
-    bank: zeroAddress,
-  },
-  router: 'PERMISSIONLESS',
-  status: 0n
-}
+// export const POOL_MOCK : LiquidityPool = {
+//   uint256s: {
+//     unit: 0n,
+//     currentPool: 0n,
+//     fullInterest: 0n,
+//     intPerSec: 0n,
+//     unitId: 0n,
+//     rId: 0n
+//   },
+//   stage: 0n,
+//   uints: {
+//     intRate: 0n,
+//     quorum: 0n,
+//     selector: 0n,
+//     colCoverage: 0n,
+//     duration: 0n,
+//     cSlot: 0n,
+//     allGh: 0n,
+//     userCount: 0n
+//   },
+//   addrs: {
+//     lastPaid: zeroAddress,
+//     admin: zeroAddress,
+//     asset: zeroAddress,
+//     bank: zeroAddress,
+//   },
+//   router: 'PERMISSIONLESS',
+//   status: 0n
+// }
 
 export const FORMATTEDDATA_MOCK : FormattedData = {
   payDate_InDateFormat: '',

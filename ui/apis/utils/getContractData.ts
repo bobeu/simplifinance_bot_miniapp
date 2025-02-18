@@ -1,15 +1,15 @@
-import factory_xfi from "../../../contract/deployments/crossTest/Factory.json";
-import factory_celo from "../../../contract/deployments/alfajores/Factory.json";
-import token_xfi from "../../../contract/deployments/crossTest/TestAsset.json";
-import token_celo from "../../../contract/deployments/alfajores/TestAsset.json";
+import contract_Sonic from "../../deployments/blaze/Simplifi.json";
+import contract_Celo from "../../deployments/alfajores/Simplifi.json";
+import token_s from "../../deployments/blaze/TestUSD.json";
+import token_celo from "../../deployments/alfajores/TestUSD.json";
 import { Address } from "@/interfaces";
 
-const indexes = [4157, 44787];
-const currencies = ['XFI', 'CELO'];
-const networks = ['CROSSFI', 'ALFAJORES'];
-const pairs = ['USDT/XFI', "USDT/CELO"];
-const contract_addrs = [token_xfi.address, token_celo.address] as const;
-const factories = [factory_xfi.address, factory_celo.address] as const;
+const indexes = [44787, 57054];
+const currencies = ['CELO','S'];
+const networks = ['ALFAJORES', 'BLAZE'];
+const pairs = ["USDT/CELO", 'USDT/S'];
+const contract_addrs = [token_celo.address, token_s.address] as const;
+const factories = [contract_Celo.address, contract_Sonic.address] as const;
 
 export const formatAddr = (x: string | (Address | undefined)) : Address => {
     if(!x || x === "") return `0x${'0'.repeat(40)}`;

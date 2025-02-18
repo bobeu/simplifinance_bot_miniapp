@@ -1,34 +1,37 @@
 import { getClients } from "@/apis/viemClient";
-import { Address, ToolConfigProperties, TransactionCallback, WagmiConfig } from "@/interfaces";
+import { Address, CommonToolArg, ToolConfigProperties } from "@/interfaces";
 import { handleTransaction } from "@/utilities";
 import { parseEther } from "viem";
 
-export const getFinance = ({wagmiConfig, callback} : GetFinanceArgs) : ToolConfigProperties<GetFinanceParam> => {
+export const getFinance = ({wagmiConfig, callback} : CommonToolArg) : ToolConfigProperties<GetFinanceParam> => {
     const client = getClients().getPublicClient();
 
     return {
         definition: {
-            type: 'function',
-            function: {
-                name: 'getFinance',
-                description: "Utility for accessing the liquidity privilege of a pool. It is simply a tool to get finance. The contributor/borrower have enough collateral in native token e.g Celo in order to get finance. Please use the 'getCollateralQuote' tool to preview the collateral needed",
-                parameters: {
-                    type: 'object',
-                    properties: {
-                        unitLiquidity: {
-                            type: 'number',
-                            description: `Amount provided by each participant as liquidity or contribution.`
-                        },
-                        preferredDaysOfUse: {
-                            type: 'number',
-                            description: `The number of hours you wish to retain the loan/liquidity. This should not be greater than one set in the pool. It should be in the range 0 - 720hrs`
-                        },
-                    },
-                    required: ['unitLiquidity']
+            "name": "getFinance",
+            "description": "Utility for accessing the liquidity privilege of a pool. It is simply a tool to get finance. The contributor/borrower have enough collateral in native token e.g Celo in order to get finance. Please use the 'getCollateralQuote' tool to preview the collateral needed.",
+            "strict": true,
+            "parameters": {
+            "type": "object",
+            "required": [
+                "unitLiquidity"
+            ],
+            "properties": {
+                    "unitLiquidity": {
+                    "type": "string",
+                    "description": "Utility for accessing the liquidity privilege of a pool. It is simply a tool to get finance. The contributor/borrower have enough collateral in native token e.g Celo in order to get finance. Please use the 'getCollateralQuote' tool to preview the collateral needed.",
                 }
+            },
+                "additionalProperties": false
+            },
+            type: "function",
+            function: {
+                name: "getFinance",
+                description: "Get the current debt of a contributor/borrower in a given pool",
+                additionalProperties: false
             }
         },
-        handler: async({unitLiquidity, preferredDaysOfUse}) => {
+        handler: async({unitLiquidity}) => {
             await handleTransaction({
                 callback,
                 otherParam: {
@@ -36,7 +39,7 @@ export const getFinance = ({wagmiConfig, callback} : GetFinanceArgs) : ToolConfi
                     wagmiConfig,
                     account: String(client.account) as Address,
                     txnType: 'GET FINANCE',
-                    unit: parseEther(unitLiquidity.toString()),
+                    unit: parseEther(unitLiquidity),
                 },
                 client
             });
@@ -44,16 +47,6 @@ export const getFinance = ({wagmiConfig, callback} : GetFinanceArgs) : ToolConfi
     }
 }
 
-export interface GetFinanceArgs {
-    wagmiConfig: WagmiConfig;
-    callback: TransactionCallback;
-}
-
 export interface GetFinanceParam {
-    unitLiquidity: number;
-    preferredDaysOfUse: number;
+    unitLiquidity: string;
 }
-
-// export const tools: Record<string, ToolConfigProperties> = {
-    
-// }

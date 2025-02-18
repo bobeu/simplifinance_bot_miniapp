@@ -6,6 +6,10 @@ import { celoAlfajores } from "viem/chains";
 
 export default async function getAllowance(args: {owner: Address, account: Address, spender: Address, client: ViemClient}) {
   const { owner, spender, account, client } = args;
+  console.log("SPENDER", spender)
+  console.log("Sowner", owner)
+  console.log("account", account)
+  console.log("Sowner", client)
   return await readContract(client, {
     address: getContractData(client.chain?.id || celoAlfajores.id).token,
     abi: allowanceAbi,

@@ -165,3 +165,63 @@ interface DefaultErrorArgs {
 export interface FormatErrorArgs extends DefaultErrorArgs {
     error: any;
 }
+
+
+
+
+// Prompt: "Create pool of $2".
+//   To create a pool, 
+//     Agent queries the smart contract for available safe mapped to a unit.
+//     - If no safe found, 
+//       * Initialize to create a safe for a pool.
+//         - Make the contributors owners of the safe including the agent and 2 more accounts in case any issue arise to be abale to refund a contributor through a DAO proposal.
+//         - Set the threshold to be 2. Either of the contributors can sign, while the agent execute it. So a user cannot trick the agent to sign a withdrawal transaction since agent knows only one source of truth which is the smart contract.
+//         - Prompt the admin/user to send cycle fee to agent (1 Celo).
+//         - Prompt the admin/user to deposit USDT asset to the safe.
+//         - Agent calls the SC 
+//             * SC stores the safe as (mapping of uint256 to address)
+//             * SC stores the hashes of all the contributors.
+//                - This is to reuse it next time in case the same set of contributors operate in similar.
+//                - SC confirms the balance in safe correlates with the unit. 
+//     - Else:
+//       - Return error message to user that a pool was already created.
+//       - Close the thread.
+
+// Prompt: "Add me to pool $5".
+//   - Agent checks with SC if the pool for $5 has a vacancy. isPoolVacant(uint256 unit)
+//     - If true,returns a message in same thread and prompts the user to fund the safe.
+//       - If success, calls the SC to add user to the pool.
+//         * SC correlates the balances with expected currentPool. If Ok, else reverts.
+//     - Else return errorMessage and ask user to check other pools or create a new one.
+//     - Soon as the last person joins, Agent prompts the user that they will sign a withdrawal transaction for a beneficiary that will be displayed to them in the chat.
+//       User permission is not required. Just a notification.
+//     - Agent proposes a withdrawal transaction with the benericiary address returned by the smart contract.
+//     - Agent makes the user as owner signs the transaction.
+
+// Prompts: "I want to get finance".
+//   - Agent ensures the connected account has enough collateral balances in Celo to deposit to the safe. In this case, anyone can deposit collateral on behalf of another the expected user And prompts the transaction.
+//   - Agent checks with SC if its ok to get finance and sign the release fund transaction. It does not matter who calls, the transaction will go through the smart contract since the right beneficiary was initially set on the safe.
+//     * SC checks the necessary conditions, set the flag in state.
+//     * Agent queries the state.
+//     * Agent signs the transaction and fund is sent to the beneficiary if the condition is true.
+
+// Prompts: "I want to pay back".
+//   - Agent queries the SC for the right user address and amount of debt to pay. In this case, anyone can repay debt on behalf of another.
+//   - Agent prompts the user to approve the SC with the amount of debt.
+//   - Agent calls the SC.
+//     SC withdraws the approval to the safe, set the state, and returns the required collateral balances to refund to the beneficiary.
+//   - Agent checks with SC if ok to sign transaction.
+//   - Agent proposes collateral release transaction.
+//   - If transaction succeed, Agent prompts connected user to release collateral from the safe the beneficiary.
+
+// prompts: "I want to liquididate the defaulter".
+//   - Agent calls SC if any defaulter.
+//     If false, agent returns error message.
+//     If true, Agent calls payback on SC with connected user alc.
+//      - SC replaces current user with defaulter and state updated.
+//      - Agent queries SC for the state.
+//      - Agent proposes collateral release transaction.
+//      - If transaction succeed, Agent prompts connected user to release collateral from the safe the beneficiary.
+
+
+

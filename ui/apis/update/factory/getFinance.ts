@@ -12,7 +12,7 @@ import { sendTransaction } from "wagmi/actions";
 import { parseEther } from "viem";
 
 export default async function getFinance(args: GetFinanceParam ) {
-  const { unit, daysOfUseInHr, wagmiConfig, client, callback, account, value } = args;
+  const { unit, wagmiConfig, client, callback, account, } = args;
   const address = getContractData(client.chain?.id || celoAlfajores.id).factory;
   let returnValue : TrxResult = 'success'; 
   const agentBalance = await getBalance(client, {address: String(client.account) as Address});
@@ -22,14 +22,12 @@ export default async function getFinance(args: GetFinanceParam ) {
       value: parseEther(PROPOSED_TRANSACTION_COST_PER_TOOL.toString())
     });
   }
-
   await simulateContract(client, {
     address,
     account,
     abi: getFinanceAbi,
     functionName: "getFinance",
-    args: [unit, daysOfUseInHr],
-    value
+    args: [unit, account],
   }).then(async({request}) => {
     const hash = await writeContract(client, request );
     callback?.({message: "Creating get-Finance request..."});

@@ -17,6 +17,8 @@ import Typed from "react-typed";
 import NotConnectedPopUp from "@/components/NotConnectedPopUp";
 import { useAccount, useReadContracts,} from "wagmi";
 import getReadFunctions from "@/components/features/FlexPool/update/DrawerWrapper/readContractConfig";
+import App from "@/components/App";
+import Layout from "@/components/Layout";
 
 export default function SimpliApp() {
   // const {data: blockNumber, } = useBlockNumber({watch: true, query: {refetchInterval: 3000}});
@@ -58,26 +60,9 @@ export default function SimpliApp() {
 
   const displayScreen = () => {
     const children = (
-      <div className='appContainer'>
-      <Navbar />
-      <Sidebar />
-      <main className='md:pl-4 md:py-[26px] md:pr-[22px] space-y-4 relative'>
-        <MotionDivWrap className="flex justify-center items-center">
-          <Typed 
-            strings={['Warning! This is testnet version', 'Warning! Coins and/or Tokens used are not real', 'Warning! Do not send or use real token']}
-            className='fixed top-16 z-50 md:hidden text-red-400 font-extrabold px-4 py-1 text-center text-xs'
-            typeSpeed={100} backSpeed={100} loop showCursor={false}              
-          />    
-        </MotionDivWrap>
-        <MotionDivWrap className={`minHeight md:rounded-[56px] px-4 py-6 md:py-10 bg-gray1 relative`} >
-          {
-            CHILDREN.filter(({path}) => path === activePath).at(0)?.element
-          }
-        </MotionDivWrap>
-        <Footer />
-      </main>
-      <NotConnectedPopUp toggleDrawer={togglePopUp} openDrawer={openPopUp} />
-    </div>
+      <Layout>
+        <App/>
+      </Layout>
     );
     return (
       displayAppScreen? children : <OnbaordScreen />
@@ -100,9 +85,9 @@ export default function SimpliApp() {
     <StorageContextProvider 
     value={
       {
-        currentEpoches: data?.[1].result?.currentEpoches || 0n,
-        recordEpoches: data?.[1].result?.recordEpoches || 0n, 
-        analytics: data?.[1].result?.analytics || ANALYTICS,
+        // currentEpoches: data?.[1].result?.currentEpoches || 0n,
+        // recordEpoches: data?.[1].result?.recordEpoches || 0n, 
+        // analytics: data?.[1].result?.analytics || ANALYTICS,
         symbol: data?.[0].result || 'USD',
         setstorage,
         displayForm,
@@ -125,34 +110,34 @@ export default function SimpliApp() {
       <div >
         { displayScreen() }
       </div>
-      <Notification message={message} resetMessage={() => setmessage('')} />
+      {/* <Notification message={message} resetMessage={() => setmessage('')} /> */}
     </StorageContextProvider>
   );
 }
 
 
-const CHILDREN : {path: Path, element: JSX.Element}[] = [
-  {
-    path: '/dashboard',
-    element: ( <Dashboard /> ), 
-  },
-  {
-    path: '/flexpool',
-    element: ( <FlexPool /> ), 
-  },
-  {
-    path: '/yield',
-    element: ( <Yield /> ), 
-  },
-  {
-    path: '/simplidao',
-    element: ( <SimpliDao /> ), 
-  },
-  {
-    path: 'faq',
-    element: ( <Faq /> ), 
-  }
-];
+// const CHILDREN : {path: Path, element: JSX.Element}[] = [
+//   {
+//     path: '/dashboard',
+//     element: ( <Dashboard /> ), 
+//   },
+//   {
+//     path: '/flexpool',
+//     element: ( <FlexPool /> ), 
+//   },
+//   {
+//     path: '/yield',
+//     element: ( <Yield /> ), 
+//   },
+//   {
+//     path: '/simplidao',
+//     element: ( <SimpliDao /> ), 
+//   },
+//   {
+//     path: 'faq',
+//     element: ( <Faq /> ), 
+//   }
+// ];
 
 
   // const router = createBrowserRouter(

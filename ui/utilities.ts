@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { Address, AmountToApproveParam, FormattedData, FormattedPoolContentProps, HandleTransactionParam, LiquidityPool, ReadDataReturnValue, } from "@/interfaces";
+import { Address, AmountToApproveParam, FormattedData, FormattedPoolContentProps, HandleTransactionParam } from "@/interfaces";
 import getCurrentDebt from "./apis/read/getCurrentDebt";
 import getAllowance from "./apis/update/testToken/getAllowance";
 import getCollateralQuote from "./apis/read/getCollateralQuote";
@@ -9,7 +9,7 @@ import getFinance from "./apis/update/factory/getFinance";
 import liquidate from "./apis/update/factory/liquidate";
 import payback from "./apis/update/factory/payback";
 import { formatEther,} from "viem";
-import { C3 } from "../contract/typechain-types/contracts/apis/IFactory";
+// import { Co } from "../contract/typechain-types/contracts/apis/IFactory";
 import createPermissioned from "./apis/update/factory/createPermissioned";
 import createPermissionless from "./apis/update/factory/createPermissionless";
 import assert from "assert";
@@ -94,7 +94,7 @@ export const getAmountToApprove = async(param: AmountToApproveParam) => {
       break;
     case 'GET FINANCE':
       const collateral = await getCollateralQuote({client, unit});
-      amtToApprove = toBN(collateral[0].toString());
+      // amtToApprove = toBN(collateral?.[0].toString());
       break;
     default:
       break;
@@ -168,7 +168,7 @@ export const handleTransaction = async(param: HandleTransactionParam) => {
  * @param pool : Pool data
  * @returns : Formatted data
  */
-export const formatPoolContent = (pool: ReadDataReturnValue, formatProfiles: boolean, currentUser: Address) : FormattedPoolContentProps => {
+export const formatPoolContent = (pool: any, formatProfiles: boolean, currentUser: Address) : FormattedPoolContentProps => {
   const {
     pool: {
       uint256s: { unit, currentPool, intPerSec, rId, fullInterest, unitId: unitId_, },
@@ -202,7 +202,7 @@ export const formatPoolContent = (pool: ReadDataReturnValue, formatProfiles: boo
   let isMember = false;
 
   if(formatProfiles && cData.length > 0) {
-    cData.forEach((data) => {
+    cData.forEach((data: any) => {
       cData_formatted.push(formatProfileData(data));
       if(data.id.toString().toLowerCase() === currentUser.toString().toLowerCase()) {
         isMember = true;
@@ -247,7 +247,7 @@ export const formatPoolContent = (pool: ReadDataReturnValue, formatProfiles: boo
   }
 }
 
-export const formatProfileData = (param: C3.ContributorStruct) : FormattedData => {
+export const formatProfileData = (param:any) : FormattedData => {
   const { payDate, colBals, turnTime, durOfChoice, expInterest, sentQuota, id, loan, } = param;
   const payDate_InSec = toBN(payDate.toString()).toNumber();
   const turnTime_InSec = toBN(turnTime.toString()).toNumber();

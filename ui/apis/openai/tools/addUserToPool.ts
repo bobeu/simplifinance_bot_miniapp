@@ -1,27 +1,34 @@
 import { getClients } from "@/apis/viemClient";
-import { Address, ToolConfigProperties, TransactionCallback, WagmiConfig } from "@/interfaces";
+import { CommonToolArg, ToolConfigProperties, } from "@/interfaces";
 import { handleTransaction } from "@/utilities";
 import { parseEther } from "viem";
 
-export const addUserToPool = ({wagmiConfig, callback} : CreatePermissionLessArgs) : ToolConfigProperties<CreatePermissionLessPoolParams> => {
+export const addUserToPool = ({wagmiConfig, account, callback} : CommonToolArg) : ToolConfigProperties<CreatePermissionLessPoolParams> => {
     const client = getClients().getPublicClient();
 
     return {
         definition: {
-            type: 'function',
+            "name": "addUserToPool",
+            "description": "Become a contributor in a pool by joining the pool, and send your quota",
+            "strict": true,
+            "parameters": {
+                "type": "object",
+                "required": [
+                    "unitLiquidity"
+                ],
+                "properties": {
+                    "unitLiquidity": {
+                        "type": "number",
+                        "description": "Amount provided by each participant as liquidity or contribution."
+                    }
+                },
+                "additionalProperties": false
+            },
+            type: "function",
             function: {
-                name: 'joinAPool',
-                description: 'Become a contributor in a pool by joining the pool, and send your quota',
-                parameters: {
-                    type: 'object',
-                    properties: {
-                        unitLiquidity: {
-                            type: 'number',
-                            description: `Amount provided by each participant as liquidity or contribution.`
-                        },
-                    },
-                    required: ['unitLiquidity']
-                }
+                name: "addUserToPool",
+                description: "Become a contributor in a pool by joining the pool, and send your quota",
+                additionalProperties: false
             }
         },
         handler: async({unitLiquidity}) => {
@@ -30,7 +37,7 @@ export const addUserToPool = ({wagmiConfig, callback} : CreatePermissionLessArgs
                 otherParam: {
                     client,
                     wagmiConfig,
-                    account: String(client.account) as Address,
+                    account,
                     txnType: 'ADD LIQUIDITY',
                     unit: parseEther(unitLiquidity.toString()),
                 },
@@ -40,15 +47,6 @@ export const addUserToPool = ({wagmiConfig, callback} : CreatePermissionLessArgs
     }
 }
 
-export interface CreatePermissionLessArgs {
-    wagmiConfig: WagmiConfig;
-    callback: TransactionCallback;
-}
-
 export interface CreatePermissionLessPoolParams {
     unitLiquidity: number;
 }
-
-// export const tools: Record<string, ToolConfigProperties> = {
-    
-// }

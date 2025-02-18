@@ -8,7 +8,7 @@ export default async function getCollateralQuote({ unit, client} : GetCollateral
   return await readContract(client, {
     abi: getCollateralQuoteAbi,
     address: getContractData(client.chain?.id || celoAlfajores.id).factory, 
-    functionName: "getCollaterlQuote",
+    functionName: "getCollateralQuote",
     args: [unit]
   });
 }

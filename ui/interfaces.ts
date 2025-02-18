@@ -1,7 +1,7 @@
 import React from "react";
 import BigNumber from "bignumber.js";
 import { BigNumberish, ethers } from "ethers";
-import { C3 } from "../contract/typechain-types/contracts/apis/IFactory";
+// import {  } from "../contracts/typechain-types/contracts/apis/";
 
 export type Path = '/dashboard' | '/yield' | '/simplidao' | '/flexpool' | 'faq';
 export type ViemClient = import('viem').Client;
@@ -20,7 +20,7 @@ export type ToggleDrawer = (value: number, setState: (value: number) => void) =>
 export type ButtonContent = 'Approve' | 'CreatePool' | 'Completed' | 'Failed';
 export type PoolType = 'Permissioned' | 'Permissionless';
 export type Anchor = 'top' | 'left' | 'bottom' | 'right';
-export type Profile = C3.ContributorStruct;
+// export type Profile = C3.ContributorStruct;
 export type TransactionCallback = (arg: TrxState) => void;
 export type Message = string;
 export type TrxResult = 'success' | 'reverted';
@@ -29,19 +29,19 @@ export interface TrxState {
   message: string;
 }
 
-export interface ReadDataReturnValue {
-  pool: LiquidityPool;
-  cData: Readonly<C3.ContributorStruct[]>;
-}
+// export interface ReadDataReturnValue {
+//   pool: LiquidityPool;
+//   cData: Readonly<C3.ContributorStruct[]>;
+// }
 
-export interface LiquidityPool {
-  uints: C3.UintsStruct;
-  uint256s: C3.Uint256sStruct;
-  addrs: C3.AddressesStruct;
-  status: BigNumberish;
-  router: BigNumberish;
-  stage: BigNumberish;
-}
+// export interface LiquidityPool {
+//   uints: C3.UintsStruct;
+//   uint256s: C3.Uint256sStruct;
+//   addrs: C3.AddressesStruct;
+//   status: BigNumberish;
+//   router: BigNumberish;
+//   stage: BigNumberish;
+// }
 // cData: Readonly<C3.ContributorStruct[]>;
 
 export interface CreatePermissionedPoolParams extends Config{
@@ -50,6 +50,7 @@ export interface CreatePermissionedPoolParams extends Config{
   colCoverage: number;
   unitLiquidity: bigint;
   contributors: Address[];
+  querySafe: () => Promise<Address>;
 }
 
 export interface CreatePermissionLessPoolParams extends Config{
@@ -58,6 +59,7 @@ export interface CreatePermissionLessPoolParams extends Config{
   durationInHours: number;
   colCoverage: number;
   unitLiquidity: bigint;
+  querySafe: () => Promise<Address>;
 }
 
 export interface GetProfileParam {
@@ -203,23 +205,27 @@ export interface ContractData {
 
 export interface ToolConfigProperties<T = any> {
   definition: {
+    name: string;
+    description: string;
+    strict: boolean,
+    parameters: {
+      type: 'object';
+      properties: Record<string, unknown>;
+      required: string[];
+      additionalProperties?: boolean;
+    };
     type: 'function';
     function: {
       name: string;
       description: string;
-      parameters: {
-        type: 'object';
-        properties: Record<string, unknown>;
-        required: string[];
-      } 
+      additionalProperties: boolean;
     }
   },
   handler: (args: T) => Promise<any>;
 }
 
-// export interface ViewFactoryData {
-//   analytics: Analytics;
-//   contractData: ContractData;
-//   currentEpoches: bigint;
-//   recordEpoches: bigint;
-// }
+export interface CommonToolArg {
+  wagmiConfig: WagmiConfig;
+  callback: TransactionCallback;
+  account: Address;
+}

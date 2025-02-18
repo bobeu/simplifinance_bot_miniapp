@@ -1,5 +1,5 @@
-import { client } from "./client";
-import { createThread } from "./createThread";
+import { client } from "./helperTool/client";
+import { createThread } from "./helperTool/createThread";
 
 export default async function createRun(param: CreateRunParam) {
     const { assistantId, message } = param;

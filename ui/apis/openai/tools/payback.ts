@@ -1,27 +1,34 @@
 import { getClients } from "@/apis/viemClient";
-import { Address, ToolConfigProperties, TransactionCallback, WagmiConfig } from "@/interfaces";
+import { Address, CommonToolArg, ToolConfigProperties} from "@/interfaces";
 import { handleTransaction } from "@/utilities";
 import { parseEther } from "viem";
 
-export const payback = ({wagmiConfig, callback} : paybackArgs) : ToolConfigProperties<paybackParam> => {
+export const payback = ({wagmiConfig, callback} : CommonToolArg) : ToolConfigProperties<PaybackParam> => {
     const client = getClients().getPublicClient();
 
     return {
         definition: {
-            type: 'function',
-            function: {
-                name: 'payback',
-                description: "Pay back the borrowed liquidity to the Safe so others can have access to it",
-                parameters: {
-                    type: 'object',
-                    properties: {
-                        unitLiquidity: {
-                            type: 'number',
-                            description: `Amount provided by each participant as liquidity or contribution.`
-                        },
-                    },
-                    required: ['unitLiquidity']                                                
+            "name": "payback",
+            "description": "Pay back the borrowed liquidity to the Safe so others can have access to it",
+            "strict": true,
+            "parameters": {
+              "type": "object",
+              "required": [
+                "unitLiquidity"
+              ],
+              "properties": {
+                "unitLiquidity": {
+                  "type": "string",
+                  "description": "Amount provided by each participant as liquidity or contribution."
                 }
+              },
+              "additionalProperties": false
+            },
+            type: "function",
+            function: {
+                name: "payback",
+                description: "Pay back the borrowed liquidity to the Safe so others can have access to it",
+                additionalProperties: false
             }
         },
         handler: async({unitLiquidity}) => {
@@ -32,7 +39,7 @@ export const payback = ({wagmiConfig, callback} : paybackArgs) : ToolConfigPrope
                     wagmiConfig,
                     account: String(client.account) as Address,
                     txnType: 'GET FINANCE',
-                    unit: parseEther(unitLiquidity.toString()),
+                    unit: parseEther(unitLiquidity),
                 },
                 client
             });
@@ -40,15 +47,7 @@ export const payback = ({wagmiConfig, callback} : paybackArgs) : ToolConfigPrope
     }
 }
 
-export interface paybackArgs {
-    wagmiConfig: WagmiConfig;
-    callback: TransactionCallback;
+export interface PaybackParam {
+    unitLiquidity: string;
 }
 
-export interface paybackParam {
-    unitLiquidity: number;
-}
-
-// export const tools: Record<string, ToolConfigProperties> = {
-    
-// }

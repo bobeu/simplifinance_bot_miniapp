@@ -31,8 +31,8 @@ export default function SwipeableInfo() {
               }
             </AutoSwipeableViews>
             <ButtonTemplate 
-              buttonAContent="Onboard Me" 
-              buttonBContent="Let Me In"
+              buttonAContent="Action Based" 
+              buttonBContent="AI Assist"
               disableButtonA={false}
               disableButtonB={false}
               overrideClassName="text-orange-200"

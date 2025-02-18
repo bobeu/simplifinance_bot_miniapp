@@ -17,12 +17,7 @@ export default function Navbar() {
                     width={100} 
                     height={100}
                 />
-            </Link>
-            <Typed 
-              strings={['Warning! This is testnet version', 'Warning! Coins and/or Tokens used are not real', 'Warning! Do not send or use real token']}
-              className='text-red-400 font-extrabold bg-gray1 px-3 py-2 rounded-full text-sm'
-              typeSpeed={100} backSpeed={100} loop showCursor={false}              
-            />                     
+            </Link>                
           </div>
           <div className={`flex justify-between md:w-full md:justify-end w-full md:px-4 lg:gap-4`}>
             <button className='md:hidden hover:text-orange-400' onClick={() => toggleSidebar(!showSidebar)}>

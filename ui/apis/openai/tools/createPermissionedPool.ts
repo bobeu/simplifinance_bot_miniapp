@@ -1,69 +1,97 @@
 import { getClients } from "@/apis/viemClient";
-import { Address, ToolConfigProperties, TransactionCallback, WagmiConfig } from "@/interfaces";
+import { Address, CommonToolArg, ToolConfigProperties, TransactionCallback, WagmiConfig } from "@/interfaces";
 import { parseEther } from "viem";
 import { handleTransaction } from "@/utilities";
+import { deployPredictedSafe } from "@/apis/safe/deployPredictedSafe";
+import { getKitWithPredictedSafe } from "@/apis/safe/getKitWithPredictedSafe";
+import { THRESHOLD } from "@/constants";
+import { randomBytes } from "crypto";
 
-export const createPermissionedPool = ({wagmiConfig, callback} : CreatePermissionLessArgs) : ToolConfigProperties<CreatePermissionLessPoolParams> => {
-    const client = getClients().getPublicClient();
+export const createPermissionedPool = ({wagmiConfig, account, callback} : CommonToolArg) : ToolConfigProperties<CreatePermissionLessPoolParams> => {
+    const client = getClients();
+    const publicClient = client.getPublicClient();
+    const walletClient = client.getWalletClient();
+    const owners = Array.from([String(publicClient.account) as Address, account]);
+    const querySafe = async(): Promise<Address> => {
+        const kit = await getKitWithPredictedSafe(
+            {
+                owners,
+                threshold: THRESHOLD,
+            },
+            randomBytes(96).toString(),
+            client.getWalletClient()
+             
+        );
+        return (await deployPredictedSafe(kit, client.getWalletClient())).safe as Address;
+    }
 
     return {
         definition: {
-            type: 'function',
-            function: {
-                name: 'createPermissionedPool',
-                description: 'Get the current debt of a contributor/borrower in a given pool',
-                parameters: {
-                    type: 'object',
-                    properties: {
-                        unitLiquidity: {
-                            type: 'number',
-                            description: `Amount provided by each participant as liquidity or contribution.`
-                        },
-                        collateralCoverageIndex: {
-                            type: 'string',
-                            description: `Collateral factor/coverage is usually determined by the operator of 
-                                           FlexPool at the time of creation. This is the percentage of loan 
-                                           that is secure by discounting the value of Celo`
-                        },
-                        contributors: {
-                            type: 'string[]',
-                            description: `A list of your friends/family/users that are allowed to participate in this pool. Max is 255, and minimum of 2 persons.`
-                        },
-                        interestRate: {
-                            type: 'string',
-                            description: `The rate of interest to charge on each contributor that get finance. Select between 1 and 300. 1 = 0.01%`
-                        },
-                        duration: {
-                            type: 'number',
-                            description: `How long an user should utilize the borrowed fund before they can pay back`
-                        },
-                        
-                    },
-                    required: ['unit','target']
+            "name": "createPermissionedPool",
+            "description": "Get the current debt of a contributor/borrower in a given pool",
+            "strict": true,
+            "parameters": {
+            "type": "object",
+            "required": [
+                "unitLiquidity",
+                "collateralCoverageIndex",
+                "contributors",
+                "interestRate",
+                "duration"
+            ],
+            "properties": {
+                "unitLiquidity": {
+                    "type": "number",
+                    "description": "Amount provided by each participant as liquidity or contribution."
+                },
+                "collateralCoverageIndex": {
+                    "type": "string",
+                    "description": "Collateral factor/coverage usually determined by the operator of FlexPool at creation time. This is the percentage of loan secured by discounting the value of Celo."
+                },
+                "contributors": {
+                    "type": "string",
+                    "description": "A list of friends/family/users allowed to participate in this pool. Max is 255, minimum of 2 persons."
+                },
+                "interestRate": {
+                    "type": "string",
+                    "description": "The rate of interest charged on each contributor receiving finance. Select between 1 and 300, where 1 = 0.01%."
+                },
+                "duration": {
+                    "type": "number",
+                    "description": "How long a user should utilize the borrowed fund before they can pay back."
                 }
+            },
+                "additionalProperties": false
+            },
+            type: "function",
+            function: {
+                name: "createPermissionedPool",
+                description: "Get the current debt of a contributor/borrower in a given pool",
+                additionalProperties: false
             }
         },
         handler: async({unitLiquidity, interestRate, contributors, durationInHour, collateralCoverageIndex}) => {
             await handleTransaction({
                 callback,
                 otherParam: {
-                    client,
+                    client: publicClient,
                     wagmiConfig,
-                    account: String(client.account) as Address,
+                    account,
                     txnType: 'CREATE',
                     unit: parseEther(unitLiquidity.toString()),
                 },
-                client,
+                client: walletClient,
                 router: 'Permissioned',
                 createPermissionedPoolParam: {
-                    account: String(client.account) as Address,
+                    account,
                     colCoverage: collateralCoverageIndex,
-                    client,
-                    contributors,
+                    client: walletClient,
+                    contributors: [contributors],
                     durationInHours: durationInHour,
                     intRate: interestRate,
                     unitLiquidity: parseEther(unitLiquidity.toString()),
                     wagmiConfig,
+                    querySafe,
                     callback,
                 }
                 
@@ -72,20 +100,11 @@ export const createPermissionedPool = ({wagmiConfig, callback} : CreatePermissio
     }
 }
 
-export interface CreatePermissionLessArgs {
-    wagmiConfig: WagmiConfig;
-    callback: TransactionCallback;
-}
-
 export interface CreatePermissionLessPoolParams {
     interestRate: number;
     quorum: number;
     durationInHour: number;
     collateralCoverageIndex: number;
     unitLiquidity: number;
-    contributors: Address[];
+    contributors: Address;
 }
-
-// export const tools: Record<string, ToolConfigProperties> = {
-    
-// }

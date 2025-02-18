@@ -4,6 +4,7 @@
     "test": "npx hardhat test",
     "deploy": "npx hardhat deploy --network hardhat",
     "deploy-alfa": "hardhat deploy --network alfajores --export deployments/contracts.json",
+    "deploy-blaze": "hardhat deploy --network blaze --export deployments/contracts.json",
     "deploy-reset-watch": "hardhat deploy --reset --watch --export-all deployments/hardhat_contracts.json",
     "flat-factory": "npx hardhat flatten contracts/implementations/Factory.sol > contracts/implementations/flattened/FactoryFlattened.sol",
     "flat-token": "npx hardhat flatten contracts/implementations/token/SimpliToken.sol > contracts/implementations/flattened/token/SimpliTokenFlattened.sol"

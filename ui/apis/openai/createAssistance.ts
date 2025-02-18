@@ -1,19 +1,45 @@
-import { client, openAIConfig as cf } from "./client";
-import { tools } from "./tools";
+import { CommonToolArg } from "@/interfaces";
+import { client, openAIConfig as cf } from "./helperTool/client";
+import { buildTools } from "./tools";
+import { AssistantTool } from "openai/resources/beta/assistants.mjs";
 
-export default async function createAssistant() {
+export default async function createAssistant(toolArg: CommonToolArg) {
+    // const tool: AssistantTool = {
+
+    // }
+    // console.log("GG", gg);
+    // const completion = await client.chat.completions.create({
+    //     model: "gpt-4o-mini",
+    //     messages: [
+    //         { role: "system", content: "You are a helpful assistant." },
+    //         {
+    //             role: "user",
+    //             content: "Write a haiku about recursion in programming.",
+    //         },
+    //     ],
+    //     store: true,
+    // });
+
+    
+
     return await client.beta.assistants.create({
         model: cf.model,
-        name: 'Simplifi Agent',
-        description: "",
+        name: 'simplifi_assistance',
+        description: "A decentralized platform for short-term peer-to-peer financing with near-zero interest. At Simplifi, everything about liquidity is controlled by the users",
         instructions: `
-            Welcome to Simplifinance! A platform for short-term peer-to-peer financing where everything about liquidity is controlled by the users.
             From the setup to the final stage of the process, you're in control.
-
             The following tools are available for you to interact with the protocol through the AI assitance.
-            - getCurrentDebt : Get the current debt of an address participating in a Flexpool. You will need to explicitly provide the target address (provided the target address is a contribitor) and the unit of that pool e.g if the unit of the pool is $5, simply type 5.
-            - getMyCurrentDebt : Get your own debt balance of a pool provided you're a contributor in that pool.
+            - get_current_debt_of : Get the current debt of an address participating in a Flexpool. You will need to explicitly provide the target address (provided the target address is a contribitor) and the unit of that pool e.g if the unit of the pool is $5, simply type 5.
+            - get_current_debt : Get your own debt balance of a pool provided you're a contributor in that pool.
+            - get_collateral_quote : Get the amount of collatersl required to get finanace in a FlexPool.
+            - join_pool : Become a contributor in a pool.
+            - create_permissioned_pool : Operate/Open a new permissioned pool. The operator i.e the creator is required to provide a list of participating addresses. Only the listed addresses can participate/benefit from the pool.
+            - create_permissionless_pool : Operat/Open a new permissionless pool. This type of pool is public, and anyone is free to contribute.
+            - get_finance : Getting finance is a method of accessing the total liquidity balances in a pool. The total contributed liquidity for a pool is unlocked from the safe and sent to the beneficiary.
+            - payback_loan : Repay the liquidity borrowed from a pool.
+            - remove_pool : Remove a liquidty pool from the protocol.
+            - liquidate_defaulter : Liquidate a defaulter provided the grace period is over.
         `,
-        tools: Object.values(tools).map(tool => tool.definition),
+        tools: Object.values(buildTools(toolArg)).map(tool => tool.definition),
     });
 }
