@@ -5,7 +5,8 @@ export default async function createRun(param: CreateRunParam) {
     const { assistantId, message } = param;
     const thread = await createThread(message);
     let run = await client.beta.threads.runs.create(thread.id, {
-        assistant_id: assistantId
+        assistant_id: assistantId,
+        instructions: 
     });
 
     while (run.status === "in_progress" || run.status === 'queued') {

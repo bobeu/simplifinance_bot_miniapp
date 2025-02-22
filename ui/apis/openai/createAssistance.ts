@@ -2,11 +2,13 @@ import { CommonToolArg } from "@/interfaces";
 import { client, openAIConfig as cf } from "./helperTool/client";
 import { buildTools } from "./tools";
 import { AssistantTool } from "openai/resources/beta/assistants.mjs";
+import type { FunctionTool } from "openai/resources/beta/assistants.mjs";
 
 export default async function createAssistant(toolArg: CommonToolArg) {
-    // const tool: AssistantTool = {
-
-    // }
+    const tools: FunctionTool = {
+        function: undefined,    
+        type: "function"
+    }
     // console.log("GG", gg);
     // const completion = await client.chat.completions.create({
     //     model: "gpt-4o-mini",

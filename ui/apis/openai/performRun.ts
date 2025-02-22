@@ -86,35 +86,35 @@ export default async function performRun({assistantId, message, toolArg} : Perfo
     // }
     // console.log("No action");
 
-    // switch (run.status) {
-    //     case 'failed':
-    //         errorMessage = `Oops! I encountered an error: ${run.last_error?.message || 'Error unknown'}`;
-    //         console.log("Run failed: ", run.last_error);
+    switch (run.status) {
+        case 'failed':
+            errorMessage = `Oops! I encountered an error: ${run.last_error?.message || 'Error unknown'}`;
+            console.log("Run failed: ", run.last_error);
             
-    //         // Return error message to user in the same thread
-    //         await client.beta.threads.messages.create(thread.id, {
-    //             role: 'assistant',
-    //             content: errorMessage
-    //         });
-    //         returnObj.text.value = errorMessage;
-    //         break;
+            // Return error message to user in the same thread
+            await client.beta.threads.messages.create(thread.id, {
+                role: 'assistant',
+                content: errorMessage
+            });
+            returnObj.text.value = errorMessage;
+            break;
     
-    //     default:
-    //         // Return error message to user in the same thread
-    //         await client.beta.threads.messages.create(thread.id, {
-    //             role: 'assistant',
-    //             content: "I can't find anything"
-    //         });
+        default:
+            // Return error message to user in the same thread
+            await client.beta.threads.messages.create(thread.id, {
+                role: 'assistant',
+                content: "I can't find anything"
+            });
            
-    //         break;
+            break;
 
-    // }
+    }
 
-    // console.log("Run here");
-    // console.log("Run end");
-    // const messages = await client.beta.threads.messages.list(thread.id);
-    // const messagesFromAssistant = messages.data.find(message => message.role === 'assistant');
-    // return messagesFromAssistant?.content[0] || returnObj;
+    console.log("Run here");
+    console.log("Run end");
+    const messages = await client.beta.threads.messages.list(thread.id);
+    const messagesFromAssistant = messages.data.find(message => message.role === 'assistant');
+    return messagesFromAssistant?.content[0] || returnObj;
 }
 
 interface PerformRunProp {
