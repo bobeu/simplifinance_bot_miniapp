@@ -1,30 +1,11 @@
 import { CommonToolArg } from "@/interfaces";
-import { client, openAIConfig as cf } from "./helperTool/client";
-import { buildTools } from "./tools";
-import { AssistantTool } from "openai/resources/beta/assistants.mjs";
-import type { FunctionTool } from "openai/resources/beta/assistants.mjs";
+import { openAIConfig as cf } from "./helperTool/client";
+import { assistant_tools } from "./tools";
+import type { AssistantCreateParams } from "openai/resources/beta/assistants.mjs";
+import OpenAI from "openai";
 
-export default async function createAssistant(toolArg: CommonToolArg) {
-    const tools: FunctionTool = {
-        function: undefined,    
-        type: "function"
-    }
-    // console.log("GG", gg);
-    // const completion = await client.chat.completions.create({
-    //     model: "gpt-4o-mini",
-    //     messages: [
-    //         { role: "system", content: "You are a helpful assistant." },
-    //         {
-    //             role: "user",
-    //             content: "Write a haiku about recursion in programming.",
-    //         },
-    //     ],
-    //     store: true,
-    // });
-
-    
-
-    return await client.beta.assistants.create({
+export default async function createAssistant(client: OpenAI) {
+    const assistantTools : AssistantCreateParams = {
         model: cf.model,
         name: 'simplifi_assistance',
         description: "A decentralized platform for short-term peer-to-peer financing with near-zero interest. At Simplifi, everything about liquidity is controlled by the users",
@@ -42,6 +23,8 @@ export default async function createAssistant(toolArg: CommonToolArg) {
             - remove_pool : Remove a liquidty pool from the protocol.
             - liquidate_defaulter : Liquidate a defaulter provided the grace period is over.
         `,
-        tools: Object.values(buildTools(toolArg)).map(tool => tool.definition),
-    });
+        tools: assistant_tools
+    }
+    return await client.beta.assistants.create(assistantTools);
+    // tools: Object.values(buildTools(toolArg)).map(tool => tool.definition),
 }

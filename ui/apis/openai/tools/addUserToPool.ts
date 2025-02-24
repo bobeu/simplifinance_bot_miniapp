@@ -7,30 +7,30 @@ export const addUserToPool = ({wagmiConfig, account, callback} : CommonToolArg) 
     const client = getClients().getPublicClient();
 
     return {
-        definition: {
-            "name": "addUserToPool",
-            "description": "Become a contributor in a pool by joining the pool, and send your quota",
-            "strict": true,
-            "parameters": {
-                "type": "object",
-                "required": [
-                    "unitLiquidity"
-                ],
-                "properties": {
-                    "unitLiquidity": {
-                        "type": "number",
-                        "description": "Amount provided by each participant as liquidity or contribution."
-                    }
-                },
-                "additionalProperties": false
-            },
-            type: "function",
-            function: {
-                name: "addUserToPool",
-                description: "Become a contributor in a pool by joining the pool, and send your quota",
-                additionalProperties: false
-            }
-        },
+        // definition: {
+        //     "name": "addUserToPool",
+        //     "description": "Become a contributor in a pool by joining the pool, and send your quota",
+        //     "strict": true,
+        //     "parameters": {
+        //         "type": "object",
+        //         "required": [
+        //             "unitLiquidity"
+        //         ],
+        //         "properties": {
+        //             "unitLiquidity": {
+        //                 "type": "number",
+        //                 "description": "Amount provided by each participant as liquidity or contribution."
+        //             }
+        //         },
+        //         "additionalProperties": false
+        //     },
+        //     type: "function",
+        //     function: {
+        //         name: "addUserToPool",
+        //         description: "Become a contributor in a pool by joining the pool, and send your quota",
+        //         additionalProperties: false
+        //     }
+        // },
         handler: async({unitLiquidity}) => {
             await handleTransaction({
                 callback,

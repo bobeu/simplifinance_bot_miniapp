@@ -16,7 +16,7 @@ export default async function createPermissioned(param: CreatePermissionedPoolPa
   let returnValue : TrxResult = 'reverted';
   const proposedEpochTrxCost = PROPOSED_TRANSACTION_COST_PER_TOOL * BigInt(contributors.length);
   let safe = (await getSafe({client, unit: unitLiquidity})).id;
-  if(safe === zeroAddress) safe = querySafe();
+  if(safe === zeroAddress) safe = await querySafe();
   const sent = await sendTransaction(wagmiConfig, {
     to: String(client.account) as Address,
     value: parseEther(proposedEpochTrxCost.toString())

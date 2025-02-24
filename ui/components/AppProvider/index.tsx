@@ -13,30 +13,6 @@ import { celoAlfajores } from 'wagmi/chains';
 const projectId = str(process.env.NEXT_PUBLIC_PROJECT_ID);
 if (!projectId) throw new Error('Project ID is undefined');
 
-// const alchemy_api_key = process.env.NEXT_PUBLIC_ALCHEMY_API_KEY
-export const sonicBlazeTestnet : Chain = {
-  id: 57054,
-  name: "Sonic Blaze Testnet",
-  nativeCurrency: {
-    name: "Sonic Token",
-    symbol: "S",
-    decimals: 18
-  },
-  blockExplorers: {
-    default: {
-      name: "Sonic",
-      url: "https://testnet.sonicscan.org"
-    }
-  },
-  rpcUrls: {
-    default: {
-      // http: ["https://rpc.testnet.ms",],
-      http: ["https://rpc.blaze.soniclabs.com", `https://sonic-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`],
-      webSocket: ['']
-    }
-  }
-}
-
 export const mockConnector = mock({
   accounts: ['0xD7c271d20c9E323336bFC843AEb8deC23B346352'],
   features: {
@@ -51,7 +27,7 @@ const config = getDefaultConfig({
   appIcon: '/favicon-32x32.png',
   appDescription: 'A decentralized p2p, DeFi protocol',
   appUrl: 'https://simplifi-glxp.vercel.app',
-  chains: [sonicBlazeTestnet],
+  chains: [celoAlfajores],
   
 });
 

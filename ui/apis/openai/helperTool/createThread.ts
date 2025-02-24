@@ -1,18 +1,14 @@
-import { Thread, ThreadCreateParams } from "openai/resources/beta/threads/threads.mjs";
-import { client } from "./client";
+import { Thread } from "openai/resources/beta/threads/threads.mjs";
+import OpenAi from 'openai';
 
-export async function createThread(message: string) : Promise<Thread> {
-    const tool_resources : ThreadCreateParams.ToolResources = {
-       
-    }
+export async function createThread(client: OpenAi, userPrompt: string) : Promise<Thread> {
     const thread = await client.beta.threads.create({
         messages: [
             {
                 role: 'user',
-                content: message
+                content: userPrompt
             }
         ],
-        tool_resources: 
     });
     return thread;
 }

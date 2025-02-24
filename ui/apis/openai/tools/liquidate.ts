@@ -7,30 +7,30 @@ export const liquidate = ({wagmiConfig, callback} : CommonToolArg) : ToolConfigP
     const client = getClients().getPublicClient();
 
     return {
-        definition: {
-            "name": "liquidate",
-            "description": "This action removes a contributor from a pool if they default to paying back the borrowed fund within the set duration, liquidate their position, and their collateral balances is fully transfered to the liquidator",
-            "strict": true,
-            "parameters": {
-                "type": "object",
-                "required": [
-                    "unitLiquidity"
-                ],
-                "properties": {
-                    "unitLiquidity": {
-                        "type": "string",
-                        "description": "Amount provided by each participant as liquidity or contribution."
-                    }
-                },
-                "additionalProperties": false
-            },
-            type: "function",
-            function: {
-                name: "liquidate",
-                description: "This action removes a contributor from a pool if they default to paying back the borrowed fund within the set duration, liquidate their position, and their collateral balances is fully transfered to the liquidator",
-                additionalProperties: false
-            }
-        },
+        // definition: {
+        //     "name": "liquidate",
+        //     "description": "This action removes a contributor from a pool if they default to paying back the borrowed fund within the set duration, liquidate their position, and their collateral balances is fully transfered to the liquidator",
+        //     "strict": true,
+        //     "parameters": {
+        //         "type": "object",
+        //         "required": [
+        //             "unitLiquidity"
+        //         ],
+        //         "properties": {
+        //             "unitLiquidity": {
+        //                 "type": "string",
+        //                 "description": "Amount provided by each participant as liquidity or contribution."
+        //             }
+        //         },
+        //         "additionalProperties": false
+        //     },
+        //     type: "function",
+        //     function: {
+        //         name: "liquidate",
+        //         description: "This action removes a contributor from a pool if they default to paying back the borrowed fund within the set duration, liquidate their position, and their collateral balances is fully transfered to the liquidator",
+        //         additionalProperties: false
+        //     }
+        // },
         handler: async({unitLiquidity}) => {
             await handleTransaction({
                 callback,

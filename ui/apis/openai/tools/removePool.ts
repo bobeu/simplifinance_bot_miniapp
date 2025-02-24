@@ -7,30 +7,30 @@ export const removePool = ({wagmiConfig, callback} : CommonToolArg) : ToolConfig
     const client = getClients().getPublicClient();
 
     return {
-        definition: {
-            "name": "removePool",
-            "description": "Cancel the operation of a FlexPool. For a permissionless pool, it should only be done if the quorum is 1. For a permissioned pool, the total liquidity/currentPool must equal to the unit contribution. Only the creator is allowed to remove a pool",
-            "strict": true,
-            "parameters": {
-                "type": "object",
-                "required": [
-                    "unitLiquidity"
-                ],
-                "properties": {
-                    "unitLiquidity": {
-                    "type": "string",
-                    "description": "Amount provided by each participant as liquidity or contribution."
-                    }
-                },
-                "additionalProperties": false
-            },
-            type: "function",
-            function: {
-                name: "removePool",
-                description: "Cancel the operation of a FlexPool. For a permissionless pool, it should only be done if the quorum is 1. For a permissioned pool, the total liquidity/currentPool must equal to the unit contribution. Only the creator is allowed to remove a pool",
-                additionalProperties: false
-            }
-        },
+        // definition: {
+        //     "name": "removePool",
+        //     "description": "Cancel the operation of a FlexPool. For a permissionless pool, it should only be done if the quorum is 1. For a permissioned pool, the total liquidity/currentPool must equal to the unit contribution. Only the creator is allowed to remove a pool",
+        //     "strict": true,
+        //     "parameters": {
+        //         "type": "object",
+        //         "required": [
+        //             "unitLiquidity"
+        //         ],
+        //         "properties": {
+        //             "unitLiquidity": {
+        //             "type": "string",
+        //             "description": "Amount provided by each participant as liquidity or contribution."
+        //             }
+        //         },
+        //         "additionalProperties": false
+        //     },
+        //     type: "function",
+        //     function: {
+        //         name: "removePool",
+        //         description: "Cancel the operation of a FlexPool. For a permissionless pool, it should only be done if the quorum is 1. For a permissioned pool, the total liquidity/currentPool must equal to the unit contribution. Only the creator is allowed to remove a pool",
+        //         additionalProperties: false
+        //     }
+        // },
         handler: async({unitLiquidity}) => {
             await handleTransaction({
                 callback,

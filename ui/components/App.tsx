@@ -1,17 +1,24 @@
 import React from "react";
 import { MotionDivWrap } from "./MotionDivWrap";
 import Container from "@mui/material/Container";
-import createAssistant from "@/apis/openai/createAssistance";
 import { CustomButton } from "./CustomButton";
 import performRun from "@/apis/openai/performRun";
 import { useAccount, useConfig } from "wagmi";
 import { CommonToolArg, TransactionCallback } from "@/interfaces";
 import { formatAddr } from "@/utilities";
-import Message from "./features/FlexPool/update/DrawerWrapper/Message";
+import Message from "./Message";
 import useAppStorage from "./StateContextProvider/useAppStorage";
+import { MessageContent } from "openai/resources/beta/threads/messages.mjs";
+import { Run } from "openai/resources/beta/threads/runs/runs.mjs";
 
 export default function App() {
     const [message, setInput] = React.useState<string>("");
+    const [content, setMsgContent] = React.useState<{
+        assistantMsg: MessageContent;
+        run: Run & {
+            _request_id?: string | null;
+        };
+    } | null>(null);
 
     // const [sideMessage, setSideMessage] = React.useState<string>("");
     
@@ -30,14 +37,17 @@ export default function App() {
 
     const handleSubmit = async() => {
         try {
-            setTimeout(() => setmessage('Using create_permissionless tool, ceating a new permissionless liquidity pool with $2'), 3000);
-            clearTimeout(3000);
+            setmessage('Wait...');
+            // setTimeout(() => setmessage('Wait...'), 3000);
+            // clearTimeout(3000);
             // if(message === '') {
             //     return setmessage("Please type a message in the box to interact with SimpliFAi assistance");
             // }
             // const assistantId = (await createAssistant(toolArg)).id;
-            const assistantId = "asst_ErdMmXZxInHA3v39eRvTpYEM";
-            await performRun({assistantId, message, toolArg});
+            // const assistantId = "asst_ErdMmXZxInHA3v39eRvTpYEM";
+            const assistantReturnInfo = await performRun({userPrompt:message, toolArg});
+            // setMsgContent(assistantReturnInfo);
+            setmessage(assistantReturnInfo.assistantMsg.text.value);
         } catch (error: any) {
             console.log("Error", error);
             const errorMessage = error?.message || error;
@@ -82,4 +92,3 @@ export default function App() {
         </MotionDivWrap>
     )
 }
-// Error encountered! Tool failed to run with error: Execution reverted for an unknown reason. Raw Call Arguments: from: 0xF1450c7F1CADE2Ff5Ec70e2Ffb191107352F4720 to: 0xb28721f7b977D64F9401161EA91bC25D59F25308 data: 0x83d0f8d20000000000000000000000000000000000000000000000001bc16d674ec80000 Contract Call: address: 0xb28721f7b977D64F9401161EA91bC25D59F25308 function: getSafe(uint256 unit) args: (2000000000000000000) Docs: https://viem.sh/docs/contract/readContract Details: execution reverted Version: 2.20.0

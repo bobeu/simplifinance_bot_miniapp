@@ -204,23 +204,23 @@ export interface ContractData {
 }
 
 export interface ToolConfigProperties<T = any> {
-  definition: {
-    name: string;
-    description: string;
-    strict: boolean,
-    parameters: {
-      type: 'object';
-      properties: Record<string, unknown>;
-      required: string[];
-      additionalProperties?: boolean;
-    };
-    type: 'function';
-    function: {
-      name: string;
-      description: string;
-      additionalProperties: boolean;
-    }
-  },
+  // definition: {
+  //   name: string;
+  //   description: string;
+  //   strict: boolean,
+  //   parameters: {
+  //     type: 'object';
+  //     properties: Record<string, unknown>;
+  //     required: string[];
+  //     additionalProperties?: boolean;
+  //   };
+  //   type: 'function';
+  //   function: {
+  //     name: string;
+  //     description: string;
+  //     additionalProperties: boolean;
+  //   }
+  // },
   handler: (args: T) => Promise<any>;
 }
 

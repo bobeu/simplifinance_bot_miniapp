@@ -1,8 +1,8 @@
 import OpenAI from "openai";
 import { Run } from "openai/resources/beta/threads/runs/runs";
 import { Thread } from "openai/resources/beta/threads/threads";
-import { buildTools } from "../tools";
 import { CommonToolArg } from "@/interfaces";
+import { buildTools } from "../tools";
 
 export default async function handleRunToolCalls(run:Run, client: OpenAI, thread: Thread, toolArg: CommonToolArg) : Promise<Run> {
     const toolCalls = run.required_action?.submit_tool_outputs?.tool_calls;
@@ -18,7 +18,8 @@ export default async function handleRunToolCalls(run:Run, client: OpenAI, thread
                 console.error(`Tool ${tool.function.name} not found`);
                 return null;
             }
-
+            console.log("tool.function.name", tool.function.name)
+            console.log("tool.function.arguments", tool.function.arguments)
             try {
                 const args = JSON.parse(tool.function.arguments);
                 const outputs = await toolConfig.handler(args);
@@ -38,7 +39,7 @@ export default async function handleRunToolCalls(run:Run, client: OpenAI, thread
     );
     const validOutputs = toolOutputs.filter(Boolean) as OpenAI.Beta.Threads.Runs.RunSubmitToolOutputsParams.ToolOutput[];
     if(validOutputs.length === 0) return run;
-
+    console.log("Tool output: ",validOutputs);
     return client.beta.threads.runs.submitToolOutputsAndPoll(
         thread.id,
         run.id,

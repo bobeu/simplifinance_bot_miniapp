@@ -7,30 +7,30 @@ export const getFinance = ({wagmiConfig, callback} : CommonToolArg) : ToolConfig
     const client = getClients().getPublicClient();
 
     return {
-        definition: {
-            "name": "getFinance",
-            "description": "Utility for accessing the liquidity privilege of a pool. It is simply a tool to get finance. The contributor/borrower have enough collateral in native token e.g Celo in order to get finance. Please use the 'getCollateralQuote' tool to preview the collateral needed.",
-            "strict": true,
-            "parameters": {
-            "type": "object",
-            "required": [
-                "unitLiquidity"
-            ],
-            "properties": {
-                    "unitLiquidity": {
-                    "type": "string",
-                    "description": "Utility for accessing the liquidity privilege of a pool. It is simply a tool to get finance. The contributor/borrower have enough collateral in native token e.g Celo in order to get finance. Please use the 'getCollateralQuote' tool to preview the collateral needed.",
-                }
-            },
-                "additionalProperties": false
-            },
-            type: "function",
-            function: {
-                name: "getFinance",
-                description: "Get the current debt of a contributor/borrower in a given pool",
-                additionalProperties: false
-            }
-        },
+        // definition: {
+        //     "name": "getFinance",
+        //     "description": "Utility for accessing the liquidity privilege of a pool. It is simply a tool to get finance. The contributor/borrower have enough collateral in native token e.g Celo in order to get finance. Please use the 'getCollateralQuote' tool to preview the collateral needed.",
+        //     "strict": true,
+        //     "parameters": {
+        //     "type": "object",
+        //     "required": [
+        //         "unitLiquidity"
+        //     ],
+        //     "properties": {
+        //             "unitLiquidity": {
+        //             "type": "string",
+        //             "description": "Utility for accessing the liquidity privilege of a pool. It is simply a tool to get finance. The contributor/borrower have enough collateral in native token e.g Celo in order to get finance. Please use the 'getCollateralQuote' tool to preview the collateral needed.",
+        //         }
+        //     },
+        //         "additionalProperties": false
+        //     },
+        //     type: "function",
+        //     function: {
+        //         name: "getFinance",
+        //         description: "Get the current debt of a contributor/borrower in a given pool",
+        //         additionalProperties: false
+        //     }
+        // },
         handler: async({unitLiquidity}) => {
             await handleTransaction({
                 callback,

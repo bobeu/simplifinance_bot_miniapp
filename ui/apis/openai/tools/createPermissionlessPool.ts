@@ -26,50 +26,50 @@ export const createPermissionlessPool = ({wagmiConfig, account, callback} : Comm
     }
 
     return {
-        definition: {
-            "name": "createPermissionlessPool",
-            "description": "Set up a new permissionless liquidity pool for a specific amount. The unit contribution must not be in existence.",
-            "strict": true,
-            "parameters": {
-            "type": "object",
-            "required": [
-                "unitLiquidity",
-                "collateralCoverageIndex",
-                "quorum",
-                "interestRate",
-                "duration"
-            ],
-            "properties": {
-                "unitLiquidity": {
-                    "type": "number",
-                    "description": "Amount provided by each participant as liquidity or contribution."
-                },
-                "collateralCoverageIndex": {
-                    "type": "string",
-                    "description": "Collateral factor/coverage is usually determined by the operator of FlexPool at the time of creation. This is the percentage of loan that is secured by discounting the value of Celo."
-                },
-                "quorum": {
-                    "type": "number",
-                    "description": "The maximum number of users that can participate in a flexpool. Generally, the minimum number of participants in any FlexPool is 2 while the maximum is 255."
-                },
-                "interestRate": {
-                    "type": "string",
-                    "description": "The rate of interest to charge on each contributor that gets finance. Select between 1 and 300. 1 = 0.01%."
-                },
-                "duration": {
-                    "type": "number",
-                    "description": "How long a user should utilize the borrowed fund before they can pay back."
-                }
-            },
-                "additionalProperties": false
-            },
-            type: "function",
-            function: {
-                name: "createPermissionlessPool",
-                description: "Set up a new permissionless liquidity pool for a specific amount. The unit contribution must not be in existence.",
-                additionalProperties: false
-            }
-        },
+        // definition: {
+        //     "name": "createPermissionlessPool",
+        //     "description": "Set up a new permissionless liquidity pool for a specific amount. The unit contribution must not be in existence.",
+        //     "strict": true,
+        //     "parameters": {
+        //     "type": "object",
+        //     "required": [
+        //         "unitLiquidity",
+        //         "collateralCoverageIndex",
+        //         "quorum",
+        //         "interestRate",
+        //         "duration"
+        //     ],
+        //     "properties": {
+        //         "unitLiquidity": {
+        //             "type": "number",
+        //             "description": "Amount provided by each participant as liquidity or contribution."
+        //         },
+        //         "collateralCoverageIndex": {
+        //             "type": "string",
+        //             "description": "Collateral factor/coverage is usually determined by the operator of FlexPool at the time of creation. This is the percentage of loan that is secured by discounting the value of Celo."
+        //         },
+        //         "quorum": {
+        //             "type": "number",
+        //             "description": "The maximum number of users that can participate in a flexpool. Generally, the minimum number of participants in any FlexPool is 2 while the maximum is 255."
+        //         },
+        //         "interestRate": {
+        //             "type": "string",
+        //             "description": "The rate of interest to charge on each contributor that gets finance. Select between 1 and 300. 1 = 0.01%."
+        //         },
+        //         "duration": {
+        //             "type": "number",
+        //             "description": "How long a user should utilize the borrowed fund before they can pay back."
+        //         }
+        //     },
+        //         "additionalProperties": false
+        //     },
+        //     type: "function",
+        //     function: {
+        //         name: "createPermissionlessPool",
+        //         description: "Set up a new permissionless liquidity pool for a specific amount. The unit contribution must not be in existence.",
+        //         additionalProperties: false
+        //     }
+        // },
         handler: async({unitLiquidity, interestRate, quorum, durationInHour, collateralCoverageIndex}) => {
            await handleTransaction({
                 callback,

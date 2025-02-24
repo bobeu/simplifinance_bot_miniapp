@@ -8,36 +8,12 @@ interface GetCurrentDebtArgs {
 }
 
 export const getMyCurrentDebt = () : ToolConfigProperties<GetCurrentDebtArgs> => {
-    const client = getClients().getPublicClient();
+    const client = getClients().getWalletClient();
 
     return {
-        definition: {
-            "name": "getCurrentDebt",
-            "description": "Get the current debt of a contributor/borrower in a given pool",
-            "strict": true,
-            "parameters": {
-                "type": "object",
-                "required": [
-                    "unitLiquidity"
-                ],
-                "properties": {
-                    "unitLiquidity": {
-                    "type": "string",
-                    "description": "The contribution of the pool e.g 1 = $1, 5 = $5, e.t.c"
-                    }
-                },
-                "additionalProperties": false
-            },
-            type: "function",
-            function: {
-                name: "getCurrentDebt",
-                description: "Get the current debt of a contributor/borrower in a given pool",
-                additionalProperties: false
-            }
-        },
         handler: async({unitLiquidity}) => {
             return await getCurrentDebt({
-                account: String(client.account) as Address,
+                account: client.account.address,
                 unit: parseEther(unitLiquidity),
                 client: client
             }); 

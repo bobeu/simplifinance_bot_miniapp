@@ -26,50 +26,50 @@ export const createPermissionedPool = ({wagmiConfig, account, callback} : Common
     }
 
     return {
-        definition: {
-            "name": "createPermissionedPool",
-            "description": "Get the current debt of a contributor/borrower in a given pool",
-            "strict": true,
-            "parameters": {
-            "type": "object",
-            "required": [
-                "unitLiquidity",
-                "collateralCoverageIndex",
-                "contributors",
-                "interestRate",
-                "duration"
-            ],
-            "properties": {
-                "unitLiquidity": {
-                    "type": "number",
-                    "description": "Amount provided by each participant as liquidity or contribution."
-                },
-                "collateralCoverageIndex": {
-                    "type": "string",
-                    "description": "Collateral factor/coverage usually determined by the operator of FlexPool at creation time. This is the percentage of loan secured by discounting the value of Celo."
-                },
-                "contributors": {
-                    "type": "string",
-                    "description": "A list of friends/family/users allowed to participate in this pool. Max is 255, minimum of 2 persons."
-                },
-                "interestRate": {
-                    "type": "string",
-                    "description": "The rate of interest charged on each contributor receiving finance. Select between 1 and 300, where 1 = 0.01%."
-                },
-                "duration": {
-                    "type": "number",
-                    "description": "How long a user should utilize the borrowed fund before they can pay back."
-                }
-            },
-                "additionalProperties": false
-            },
-            type: "function",
-            function: {
-                name: "createPermissionedPool",
-                description: "Get the current debt of a contributor/borrower in a given pool",
-                additionalProperties: false
-            }
-        },
+        // definition: {
+        //     "name": "createPermissionedPool",
+        //     "description": "Get the current debt of a contributor/borrower in a given pool",
+        //     "strict": true,
+        //     "parameters": {
+        //     "type": "object",
+        //     "required": [
+        //         "unitLiquidity",
+        //         "collateralCoverageIndex",
+        //         "contributors",
+        //         "interestRate",
+        //         "duration"
+        //     ],
+        //     "properties": {
+        //         "unitLiquidity": {
+        //             "type": "number",
+        //             "description": "Amount provided by each participant as liquidity or contribution."
+        //         },
+        //         "collateralCoverageIndex": {
+        //             "type": "string",
+        //             "description": "Collateral factor/coverage usually determined by the operator of FlexPool at creation time. This is the percentage of loan secured by discounting the value of Celo."
+        //         },
+        //         "contributors": {
+        //             "type": "string",
+        //             "description": "A list of friends/family/users allowed to participate in this pool. Max is 255, minimum of 2 persons."
+        //         },
+        //         "interestRate": {
+        //             "type": "string",
+        //             "description": "The rate of interest charged on each contributor receiving finance. Select between 1 and 300, where 1 = 0.01%."
+        //         },
+        //         "duration": {
+        //             "type": "number",
+        //             "description": "How long a user should utilize the borrowed fund before they can pay back."
+        //         }
+        //     },
+        //         "additionalProperties": false
+        //     },
+        //     type: "function",
+        //     function: {
+        //         name: "createPermissionedPool",
+        //         description: "Get the current debt of a contributor/borrower in a given pool",
+        //         additionalProperties: false
+        //     }
+        // },
         handler: async({unitLiquidity, interestRate, contributors, durationInHour, collateralCoverageIndex}) => {
             await handleTransaction({
                 callback,

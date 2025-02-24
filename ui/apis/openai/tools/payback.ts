@@ -7,30 +7,30 @@ export const payback = ({wagmiConfig, callback} : CommonToolArg) : ToolConfigPro
     const client = getClients().getPublicClient();
 
     return {
-        definition: {
-            "name": "payback",
-            "description": "Pay back the borrowed liquidity to the Safe so others can have access to it",
-            "strict": true,
-            "parameters": {
-              "type": "object",
-              "required": [
-                "unitLiquidity"
-              ],
-              "properties": {
-                "unitLiquidity": {
-                  "type": "string",
-                  "description": "Amount provided by each participant as liquidity or contribution."
-                }
-              },
-              "additionalProperties": false
-            },
-            type: "function",
-            function: {
-                name: "payback",
-                description: "Pay back the borrowed liquidity to the Safe so others can have access to it",
-                additionalProperties: false
-            }
-        },
+        // definition: {
+        //     "name": "payback",
+        //     "description": "Pay back the borrowed liquidity to the Safe so others can have access to it",
+        //     "strict": true,
+        //     "parameters": {
+        //       "type": "object",
+        //       "required": [
+        //         "unitLiquidity"
+        //       ],
+        //       "properties": {
+        //         "unitLiquidity": {
+        //           "type": "string",
+        //           "description": "Amount provided by each participant as liquidity or contribution."
+        //         }
+        //       },
+        //       "additionalProperties": false
+        //     },
+        //     type: "function",
+        //     function: {
+        //         name: "payback",
+        //         description: "Pay back the borrowed liquidity to the Safe so others can have access to it",
+        //         additionalProperties: false
+        //     }
+        // },
         handler: async({unitLiquidity}) => {
             await handleTransaction({
                 callback,
