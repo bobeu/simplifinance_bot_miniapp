@@ -13,14 +13,6 @@ import { celoAlfajores } from 'wagmi/chains';
 const projectId = str(process.env.NEXT_PUBLIC_PROJECT_ID);
 if (!projectId) throw new Error('Project ID is undefined');
 
-export const mockConnector = mock({
-  accounts: ['0xD7c271d20c9E323336bFC843AEb8deC23B346352'],
-  features: {
-    connectError: new UserRejectedRequestError(new Error('Failed to connect')),
-    reconnect: false
-  }
-});
-
 const config = getDefaultConfig({
   appName: 'Simplifinance',
   projectId,

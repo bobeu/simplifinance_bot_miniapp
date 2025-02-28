@@ -8,20 +8,9 @@ import { CommonToolArg, TransactionCallback } from "@/interfaces";
 import { formatAddr } from "@/utilities";
 import Message from "./Message";
 import useAppStorage from "./StateContextProvider/useAppStorage";
-import { MessageContent } from "openai/resources/beta/threads/messages.mjs";
-import { Run } from "openai/resources/beta/threads/runs/runs.mjs";
 
 export default function App() {
     const [message, setInput] = React.useState<string>("");
-    const [content, setMsgContent] = React.useState<{
-        assistantMsg: MessageContent;
-        run: Run & {
-            _request_id?: string | null;
-        };
-    } | null>(null);
-
-    // const [sideMessage, setSideMessage] = React.useState<string>("");
-    
     const { message: sideMessage, setmessage } = useAppStorage();
     const callback : TransactionCallback = (arg) => setmessage(arg.message);
     const toolArg : CommonToolArg = {
@@ -38,15 +27,7 @@ export default function App() {
     const handleSubmit = async() => {
         try {
             setmessage('Wait...');
-            // setTimeout(() => setmessage('Wait...'), 3000);
-            // clearTimeout(3000);
-            // if(message === '') {
-            //     return setmessage("Please type a message in the box to interact with SimpliFAi assistance");
-            // }
-            // const assistantId = (await createAssistant(toolArg)).id;
-            // const assistantId = "asst_ErdMmXZxInHA3v39eRvTpYEM";
             const assistantReturnInfo = await performRun({userPrompt:message, toolArg});
-            // setMsgContent(assistantReturnInfo);
             setmessage(assistantReturnInfo.assistantMsg.text.value);
         } catch (error: any) {
             console.log("Error", error);

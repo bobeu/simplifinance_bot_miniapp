@@ -1,7 +1,6 @@
 import React from "react";
 import BigNumber from "bignumber.js";
 import { BigNumberish, ethers } from "ethers";
-// import {  } from "../contracts/typechain-types/contracts/apis/";
 
 export type Path = '/dashboard' | '/yield' | '/simplidao' | '/flexpool' | 'faq';
 export type ViemClient = import('viem').Client;
@@ -20,7 +19,6 @@ export type ToggleDrawer = (value: number, setState: (value: number) => void) =>
 export type ButtonContent = 'Approve' | 'CreatePool' | 'Completed' | 'Failed';
 export type PoolType = 'Permissioned' | 'Permissionless';
 export type Anchor = 'top' | 'left' | 'bottom' | 'right';
-// export type Profile = C3.ContributorStruct;
 export type TransactionCallback = (arg: TrxState) => void;
 export type Message = string;
 export type TrxResult = 'success' | 'reverted';
@@ -28,21 +26,6 @@ export interface TrxState {
   status?: TrxResult;
   message: string;
 }
-
-// export interface ReadDataReturnValue {
-//   pool: LiquidityPool;
-//   cData: Readonly<C3.ContributorStruct[]>;
-// }
-
-// export interface LiquidityPool {
-//   uints: C3.UintsStruct;
-//   uint256s: C3.Uint256sStruct;
-//   addrs: C3.AddressesStruct;
-//   status: BigNumberish;
-//   router: BigNumberish;
-//   stage: BigNumberish;
-// }
-// cData: Readonly<C3.ContributorStruct[]>;
 
 export interface CreatePermissionedPoolParams extends Config{
   intRate: number;
@@ -167,61 +150,12 @@ export interface HandleTransactionParam {
   client: ViemClient;
   callback: TransactionCallback;
 }
-export interface DrawerState {
-  anchor: DrawerAnchor
-  value: boolean;
-}
-
-export interface InputProp {
-  value: string;
-  open: boolean;
-}
-
-export interface InputCategoryProp {
-  inputProp: InputProp;
-  isLargeScreen: boolean;
-  handleChange: (value: InputProp, tag: InputSelector) => void
-}
-
-export interface ButtonObj {
-  value: ButtonText;
-  disable: boolean;
-  displayMessage?: string;
-}
-
-export interface Analytics {
-  tvlInXFI: bigint;
-  tvlInUsd: bigint;
-  totalPermissioned: bigint;
-  totalPermissionless: bigint;
-}
 
 export interface ContractData {
   feeTo: Address;
   assetAdmin: Address;
   makerRate: number;
   bankFactory: Address;
-}
-
-export interface ToolConfigProperties<T = any> {
-  // definition: {
-  //   name: string;
-  //   description: string;
-  //   strict: boolean,
-  //   parameters: {
-  //     type: 'object';
-  //     properties: Record<string, unknown>;
-  //     required: string[];
-  //     additionalProperties?: boolean;
-  //   };
-  //   type: 'function';
-  //   function: {
-  //     name: string;
-  //     description: string;
-  //     additionalProperties: boolean;
-  //   }
-  // },
-  handler: (args: T) => Promise<any>;
 }
 
 export interface CommonToolArg {
